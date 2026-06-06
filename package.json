@@ -1,7 +1,7 @@
 {
-  "name": "express-template",
+  "name": "odin-inventory-app",
   "version": "1.0.0",
-  "description": "Basic Node/Express template for backend projects",
+  "description": "Basic product inventory management app to learn Node/Express/PostgreSQL",
   "main": "app.js",
   "scripts": {
     "preinstall": "npx only-allow pnpm",

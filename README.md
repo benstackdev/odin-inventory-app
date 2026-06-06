@@ -1,2 +1,2 @@
-# node-express-template
-Basic Node/Express template for backend projects
+# Odin Inventory App
+Basic product inventory management app to learn Node/Express/PostgreSQL

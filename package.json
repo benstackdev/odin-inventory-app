@@ -21,7 +21,9 @@
   },
   "homepage": "https://github.com/benstackdev/node-express-template#readme",
   "dependencies": {
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "pg": "^8.21.0",
+    "pug": "^3.0.4"
   },
   "devDependencies": {
     "@types/express": "^5.0.6",

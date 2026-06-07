@@ -28,6 +28,11 @@ const postNewProduct = async (newProduct: ProductType) => {
 };
 
 // Stores
+const getAllStores = async () => {
+  const { rows } = await db.query('select * from store');
+  return rows;
+};
+
 const postNewStore = async (newStore: StoreType) => {
   await db.query(`
     insert into store (id, name)
@@ -41,5 +46,6 @@ export {
   getAllProducts,
   getProductById,
   postNewProduct,
+  getAllStores,
   postNewStore
 };

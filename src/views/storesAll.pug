@@ -1,0 +1,10 @@
+doctype html 
+html 
+  head 
+    title= title 
+  body 
+    h1= title 
+    ul.stores-list
+      each val in stores 
+        li: .stores-item= val.name
+    p: a(href="/") Back to home  

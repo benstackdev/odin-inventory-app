@@ -45,6 +45,20 @@ const postNewStore = async (newStore: StoreType) => {
   );
 };
 
+const getStoreById = async (storeId: StoreType["id"]) => {
+  const { rows } = await db.query('select * from store where id=$1', [storeId]);
+  return rows[0];
+};
+
+const getStoreInventory = async (storeId: StoreType["id"]) => {
+  const { rows } = await db.query(`
+    select * from inventory
+    where storeid=$1`,
+    [storeId]
+  );
+  return rows;
+};
+
 export {
   getAllCategories,
   getAllProducts,
@@ -52,5 +66,7 @@ export {
   deleteProductById,
   postNewProduct,
   getAllStores,
-  postNewStore
+  postNewStore,
+  getStoreById,
+  getStoreInventory
 };

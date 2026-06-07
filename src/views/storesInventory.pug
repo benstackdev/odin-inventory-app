@@ -1,0 +1,13 @@
+doctype html 
+html 
+  head
+    title= title 
+  body 
+    h1= store.name 
+    ul.store-inventory
+      each val in inventory 
+        li.inventory-item
+          h3= inventory.productname 
+          p= 'Amount: ' + inventory.amount 
+    p: a(href=`/stores/${store.id}/add-inventory`) Add product to inventory 
+    p: a(href="/stores/all") Go back to stores list  

@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { deleteProductById, getAllCategories, getAllProducts, getProductById, postNewProduct } from "../db/queries.js";
+import { deleteProductById, getAllProducts, getProductById, postNewProduct } from "../db/queries.js";
 import type { CategoryType } from "../types/category.type.js";
 import type { ProductType, ProductViewType } from "../types/product.type.js";
 import categories from "../utils/categories.js";

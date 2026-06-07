@@ -6,5 +6,8 @@ html
     h1= title 
     ul.stores-list
       each val in stores 
-        li: .stores-item= val.name
+        li: .stores-item
+          h3=val.name
+          p: a(href=`/stores/${stores.id}/`) View inventory 
+    p: a(href="/stores/new/") Add new store 
     p: a(href="/") Back to home  

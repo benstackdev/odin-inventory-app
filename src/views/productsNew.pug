@@ -1,0 +1,19 @@
+doctype html 
+html(lang='en') 
+  head 
+    title= title
+  body 
+    h1 Add new product
+    form(action="/products/new", method="POST")
+      .form-row
+        label(for="productName") Product Name: 
+        input#productName(type="text", name="productName")
+      .form-row
+        label(for="productDescription") Product Description: 
+        textarea#productDescription(name="productDescription")
+      .form-row
+        label(for="categorySelect") Product Category:
+        select#categorySelect(name="category")
+          each val in categories 
+            option(value=val.id)= val.name
+      button(type="submit") Add new product

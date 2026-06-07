@@ -1,0 +1,10 @@
+doctype html 
+html 
+  head
+    title= title 
+  body 
+    h1= 'Product: ' + product.name 
+    .product-details 
+      p= 'Description: ' + product.description 
+      p= 'Category: ' + product.categoryName
+      p: a(href="/products/all") Go back to products list 

@@ -12,6 +12,12 @@ const getAllProducts = async () => {
   return rows;
 };
 
+const getProductById = async (id: ProductType["id"]) => {
+  const { rows } = await db.query('select * from product where id=$1', [id]);
+
+  return rows[0]; // Should only fetch one product
+};
+
 const postNewProduct = async (newProduct: ProductType) => {
   await db.query(`
     insert into product (id, name, description, categoryid) 
@@ -23,5 +29,6 @@ const postNewProduct = async (newProduct: ProductType) => {
 export {
   getAllCategories,
   getAllProducts,
+  getProductById,
   postNewProduct
 };

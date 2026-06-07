@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { getAllCategories, getAllProducts, postNewProduct } from "../db/queries.js";
+import { getAllCategories, getAllProducts, getProductById, postNewProduct } from "../db/queries.js";
 import type { CategoryType } from "../types/category.type.js";
 import type { ProductType, ProductViewType } from "../types/product.type.js";
 import categories from "../utils/categories.js";
@@ -44,8 +44,25 @@ const productsNewPost = async (req: Request, res: Response) => {
   } catch (error) { throw error; }
 };
 
+const productsIdGet = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const product = await getProductById(String(id));
+
+    res.render("productsId", {
+      title: product.name,
+      // Not the best type safety here
+      product: {
+        ...product,
+        categoryName: categories.getNameById(product.categoryid)
+      }
+    });
+  } catch (error) { throw error; }
+};
+
 export {
   productsAllGet,
   productsNewGet,
+  productsIdGet,
   productsNewPost
 };

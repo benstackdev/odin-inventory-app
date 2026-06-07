@@ -2,12 +2,13 @@ import type { Request, Response } from "express";
 import { getAllCategories, postNewProduct } from "../db/queries.js";
 import type { CategoryType } from "../types/category.type.js";
 import type { ProductType } from "../types/product.type.js";
+import categories from "../utils/categories.js";
 
 const productsNewGet = async (req: Request, res: Response) => {
-  const categories: CategoryType[] = await getAllCategories();
+  const categoryList: CategoryType[] = categories.all();
   res.render("productsNew", {
     title: "Create new product",
-    categories
+    categories: categoryList
   });
 };
 

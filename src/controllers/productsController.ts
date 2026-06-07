@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { getAllCategories, getAllProducts, getProductById, postNewProduct } from "../db/queries.js";
+import { deleteProductById, getAllCategories, getAllProducts, getProductById, postNewProduct } from "../db/queries.js";
 import type { CategoryType } from "../types/category.type.js";
 import type { ProductType, ProductViewType } from "../types/product.type.js";
 import categories from "../utils/categories.js";
@@ -40,7 +40,7 @@ const productsNewPost = async (req: Request, res: Response) => {
     };
 
     await postNewProduct(newProduct);
-    res.redirect("/");
+    res.redirect("/products/all");
   } catch (error) { throw error; }
 };
 
@@ -60,9 +60,20 @@ const productsIdGet = async (req: Request, res: Response) => {
   } catch (error) { throw error; }
 };
 
+const productsIdDelete = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    if (typeof id !== "string") res.status(404).json(`Product ID ${id} not found or invalid`);
+
+    await deleteProductById(id as string);
+    res.redirect("/products/all");
+  } catch (error) { throw error; }
+};
+
 export {
   productsAllGet,
   productsNewGet,
   productsIdGet,
+  productsIdDelete,
   productsNewPost
 };

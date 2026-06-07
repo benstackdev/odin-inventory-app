@@ -8,5 +8,6 @@ html
       each val in products  
         li.products-item 
           h3= val.name 
-          p: a(href=`/products/${val.id}`) View details 
+          p: a(href=`/products/${val.id}`) View details
+    p: a(href="/products/new") Add new product 
     p: a(href="/") Back to home 

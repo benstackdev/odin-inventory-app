@@ -7,4 +7,10 @@ html
     .product-details 
       p= 'Description: ' + product.description 
       p= 'Category: ' + product.categoryName
-      p: a(href="/products/all") Go back to products list 
+    //- Only valid form methods are GET and POST (no DELETE)
+    form(action=`/products/${product.id}/delete`, method="POST")
+      button(
+        type="submit",
+        onclick='confirm("Are you sure you want to delete ' + product.name + '?")'
+      ) Delete this product
+    p: a(href="/products/all") Go back to products list 

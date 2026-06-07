@@ -19,6 +19,10 @@ const getProductById = async (id: ProductType["id"]) => {
   return rows[0]; // Should only fetch one product
 };
 
+const deleteProductById = async (id: ProductType["id"]) => {
+  await db.query('delete from product where id=$1', [id]);
+};
+
 const postNewProduct = async (newProduct: ProductType) => {
   await db.query(`
     insert into product (id, name, description, categoryid) 
@@ -45,6 +49,7 @@ export {
   getAllCategories,
   getAllProducts,
   getProductById,
+  deleteProductById,
   postNewProduct,
   getAllStores,
   postNewStore

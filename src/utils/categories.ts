@@ -25,14 +25,14 @@ class Categories {
   public getNameById(id: CategoryType["id"]) {
     const category = this._list.find(category => category.id === id);
 
-    if (!category) return '';
+    if (!category) return null;
     return category.name;
   }
 
   public getIdByName(name: CategoryType["name"]) {
     const category = this._list.find(category => category.name === name);
 
-    if (!category) return '';
+    if (!category) return null;
     return category.id;
   }
 }

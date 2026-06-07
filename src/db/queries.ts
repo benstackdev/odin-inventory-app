@@ -7,15 +7,21 @@ const getAllCategories = async () => {
 };
 
 // Products
+const getAllProducts = async () => {
+  const { rows } = await db.query('select * from product');
+  return rows;
+};
+
 const postNewProduct = async (newProduct: ProductType) => {
   await db.query(`
     insert into product (id, name, description, categoryid) 
     values ($1, $2, $3, $4)`,
-    [newProduct.id, newProduct.name, newProduct.description, newProduct.categoryId]
+    [newProduct.id, newProduct.name, newProduct.description, newProduct.categoryid]
   );
 };
 
 export {
   getAllCategories,
+  getAllProducts,
   postNewProduct
 };

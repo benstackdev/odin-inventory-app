@@ -1,8 +1,26 @@
 import type { Request, Response } from "express";
-import { getAllCategories, postNewProduct } from "../db/queries.js";
+import { getAllCategories, getAllProducts, postNewProduct } from "../db/queries.js";
 import type { CategoryType } from "../types/category.type.js";
-import type { ProductType } from "../types/product.type.js";
+import type { ProductType, ProductViewType } from "../types/product.type.js";
 import categories from "../utils/categories.js";
+
+const productsAllGet = async (req: Request, res: Response) => {
+  try {
+    const productsQueryList: ProductType[] = await getAllProducts();
+    const productsViewList: ProductViewType[] = productsQueryList.map((product: ProductType): ProductViewType => {
+      const name = categories.getNameById(product.categoryid);
+      return {
+        ...product,
+        categoryName: name ?? "undefined"
+      };
+    });
+
+    res.render("productsAll", {
+      title: "All products",
+      products: productsViewList
+    });
+  } catch (error) { throw (error); }
+};
 
 const productsNewGet = async (req: Request, res: Response) => {
   const categoryList: CategoryType[] = categories.all();
@@ -18,7 +36,7 @@ const productsNewPost = async (req: Request, res: Response) => {
       id: crypto.randomUUID(),
       name: req.body.productName,
       description: req.body.productDescription,
-      categoryId: req.body.category
+      categoryid: req.body.category
     };
 
     await postNewProduct(newProduct);
@@ -27,6 +45,7 @@ const productsNewPost = async (req: Request, res: Response) => {
 };
 
 export {
+  productsAllGet,
   productsNewGet,
   productsNewPost
 };

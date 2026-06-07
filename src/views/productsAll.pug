@@ -1,0 +1,13 @@
+doctype html 
+html 
+  head 
+    title= title 
+  body 
+    h1= title
+    ul.products-list
+      each val in products  
+        li.products-item 
+          h3= val.name 
+          p= 'Description: ' + val.description 
+          p= 'Category: ' + val.categoryName 
+          

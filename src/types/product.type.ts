@@ -2,5 +2,13 @@ export type ProductType = {
   id: string,
   name: string,
   description: string,
-  categoryId: string;
+  categoryid: string;
+};
+
+// Same as ProductType but with the category name instead of id
+export type ProductViewType = {
+  id: string,
+  name: string,
+  description: string,
+  categoryName: string;
 };

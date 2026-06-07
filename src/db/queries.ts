@@ -1,4 +1,5 @@
 import type { ProductType } from "../types/product.type.js";
+import type { StoreType } from "../types/store.type.js";
 import db from "./pool.js";
 
 const getAllCategories = async () => {
@@ -26,9 +27,19 @@ const postNewProduct = async (newProduct: ProductType) => {
   );
 };
 
+// Stores
+const postNewStore = async (newStore: StoreType) => {
+  await db.query(`
+    insert into store (id, name)
+    values ($1, $2)`,
+    [newStore.id, newStore.name]
+  );
+};
+
 export {
   getAllCategories,
   getAllProducts,
   getProductById,
-  postNewProduct
+  postNewProduct,
+  postNewStore
 };

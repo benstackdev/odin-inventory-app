@@ -1,0 +1,17 @@
+doctype html
+html 
+  head 
+    title= title 
+  body
+    h1 Update Inventory
+    p 
+      | Checking an unchecked product will 
+      b add it 
+      | to the inventory with its associated amount.
+      | Unchecking a checked product will 
+      b remove it 
+      | from the inventory.
+    form(action=`/stores/${store.id}/update-inventory`, method="POST")
+      each product in products
+        h3= product.name
+    p: a(href=`/stores/${store.id}`) Return to store page 

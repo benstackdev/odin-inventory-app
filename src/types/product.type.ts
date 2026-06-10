@@ -12,3 +12,5 @@ export type ProductViewType = {
   description: string,
   categoryName: string;
 };
+
+export type ProductInventoryType = ProductType & { amount: number; };

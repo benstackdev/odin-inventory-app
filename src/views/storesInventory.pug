@@ -7,7 +7,7 @@ html
     ul.store-inventory
       each val in inventory 
         li.inventory-item
-          h3= inventory.productname 
-          p= 'Amount: ' + inventory.amount 
+          h3= val.productname 
+          p= 'Amount: ' + val.amount 
     p: a(href=`/stores/${store.id}/add-inventory`) Add product to inventory 
     p: a(href="/stores/all") Go back to stores list  

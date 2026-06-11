@@ -12,6 +12,42 @@ html
       b remove it 
       | from the inventory.
     form(action=`/stores/${store.id}/update-inventory`, method="POST")
-      each product in products
-        h3= product.name
+      each item in inInventory
+        .update-inventory-item
+          h3= item.name
+          p= 'Category: ' + item.categoryName
+          .form-row
+            label(for=`${item.id}-inInventory`) 
+              input(
+                type="checkbox" 
+                id=`${item.id}-inInventory` 
+                name=`${item.id}-inInventory`
+                checked=true)
+              | Product in inventory
+          .form-row
+            label(for=`${item.id}-amount`) Product amount: 
+            input(type="number" 
+                  id=`${item.id}-amount` 
+                  value= item.amount 
+                  min="1")
+      each item in notInInventory
+        .update-inventory-item
+          h3= item.name
+          p= 'Category: ' + item.categoryName
+          .form-row
+            label(for=`${item.id}-inInventory`) 
+              input(
+                type="checkbox" 
+                id=`${item.id}-inInventory` 
+                name=`${item.id}-inInventory`)
+              | Product in inventory
+          .form-row
+            label(for=`${item.id}-amount`) Product amount: 
+            input(type="number" 
+                  id=`${item.id}-amount` 
+                  value="1" 
+                  min="1")
+      br
+      button(type="Submit"
+              onclick='confirm("Are you sure you want to keep these changes?)') Save inventory
     p: a(href=`/stores/${store.id}`) Return to store page 

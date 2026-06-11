@@ -1,8 +1,9 @@
 import type { Request, Response } from "express";
 import type { StoreType } from "../types/store.type.js";
-import { getAllProducts, getAllStores, getStoreById, getStoreInventory, postNewStore } from "../db/queries.js";
+import { getAllProducts, getAllStores, getProductById, getStoreById, getStoreInventory, postNewStore } from "../db/queries.js";
 import type { InventoryType } from "../types/inventory.type.js";
-import type { ProductType } from "../types/product.type.js";
+import type { ProductInventoryType, ProductType } from "../types/product.type.js";
+import { inventoryFilter } from "../utils/inventoryFilter.js";
 
 const storesAllGet = async (req: Request, res: Response) => {
   try {
@@ -52,12 +53,16 @@ const storesUpdateInventoryGet = async (req: Request, res: Response) => {
     if (!id) res.status(404).json(`Store ID ${id} not found or invalid`);
 
     const store: StoreType = await getStoreById(id as StoreType["id"]);
-    const products: ProductType[] = await getAllProducts();
+    const allProducts: ProductType[] = await getAllProducts();
+    const inventory: InventoryType[] = await getStoreInventory(store.id);
+
+    const { inInventory, notInInventory } = inventoryFilter(allProducts, inventory);
 
     res.render("storesInventoryUpdate", {
       title: "Update inventory",
       store,
-      products
+      inInventory,
+      notInInventory
     });
   } catch (error) { throw error; }
 };

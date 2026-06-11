@@ -1,9 +1,11 @@
 import type { Request, Response } from "express";
 import type { StoreType } from "../types/store.type.js";
-import { getAllProducts, getAllStores, getProductById, getStoreById, getStoreInventory, postNewStore } from "../db/queries.js";
+import { getAllProducts, getAllStores, getProductById, getStoreById, getStoreInventory, postNewStore, postStoreInventory } from "../db/queries.js";
 import type { InventoryType } from "../types/inventory.type.js";
 import type { ProductInventoryType, ProductType } from "../types/product.type.js";
 import { inventoryFilter } from "../utils/inventoryFilter.js";
+
+// TODO: Refactor middleware functions to remove repeated store fetching code
 
 const storesAllGet = async (req: Request, res: Response) => {
   try {
@@ -67,10 +69,40 @@ const storesUpdateInventoryGet = async (req: Request, res: Response) => {
   } catch (error) { throw error; }
 };
 
+const storesUpdateInventoryPost = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    if (!id) res.status(404).json(`Store ID ${id} not found or invalid`);
+
+    const store: StoreType = await getStoreById(id as StoreType["id"]);
+    const allProducts = await getAllProducts();
+    const newInventory: InventoryType[] = [];
+
+    // constuct newInventory list based on view
+    for (let product of allProducts) {
+      if (req.body[`${product.id}-inInventory`]) {
+        const amount = req.body[`${product.id}-amount`];
+        newInventory.push({
+          productid: product.id,
+          storeid: store.id,
+          amount,
+          productname: product.name,
+          storename: store.name
+        });
+      }
+    }
+
+    await postStoreInventory(store.id, newInventory);
+
+    res.redirect(`/stores/${store.id}/`);
+  } catch (error) { throw error; }
+};
+
 export {
   storesAllGet,
   storesNewGet,
   storesNewPost,
   storesInventoryGet,
-  storesUpdateInventoryGet
+  storesUpdateInventoryGet,
+  storesUpdateInventoryPost
 };

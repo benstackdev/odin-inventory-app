@@ -8,10 +8,12 @@ html
       | Checking an unchecked product will 
       b add it 
       | to the inventory with its associated amount.
+      br
       | Unchecking a checked product will 
       b remove it 
       | from the inventory.
     form(action=`/stores/${store.id}/update-inventory`, method="POST")
+      h2 Items in inventory
       each item in inInventory
         .update-inventory-item
           h3= item.name
@@ -27,9 +29,11 @@ html
           .form-row
             label(for=`${item.id}-amount`) Product amount: 
             input(type="number" 
-                  id=`${item.id}-amount` 
+                  id=`${item.id}-amount`,
+                  name=`${item.id}-amount` 
                   value= item.amount 
                   min="1")
+      h2 Items not in inventory
       each item in notInInventory
         .update-inventory-item
           h3= item.name
@@ -45,9 +49,10 @@ html
             label(for=`${item.id}-amount`) Product amount: 
             input(type="number" 
                   id=`${item.id}-amount` 
+                  name=`${item.id}-amount`
                   value="1" 
                   min="1")
       br
       button(type="Submit"
-              onclick='confirm("Are you sure you want to keep these changes?)') Save inventory
+              onclick='confirm("Are you sure you want to keep these changes?")') Save inventory
     p: a(href=`/stores/${store.id}`) Return to store page 

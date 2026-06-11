@@ -1,3 +1,4 @@
+import type { InventoryType } from "../types/inventory.type.js";
 import type { ProductType } from "../types/product.type.js";
 import type { StoreType } from "../types/store.type.js";
 import db from "./pool.js";
@@ -59,6 +60,23 @@ const getStoreInventory = async (storeId: StoreType["id"]) => {
   return rows;
 };
 
+const postStoreInventory = async (storeId: StoreType["id"], newInventory: InventoryType[]) => {
+  // delete all existing inventory entries for storeId
+  await db.query(`delete from inventory where storeid=$1`, [storeId]);
+
+  // replace with new entries from middleware function
+  let updateInventoryQuery = `insert into inventory (productid, storeid, amount, productname, storename) values `;
+
+  newInventory.forEach((item, index) => {
+    updateInventoryQuery += `('${item.productid}', '${item.storeid}', ${item.amount}, '${item.productname}', '${item.storename}')`;
+    updateInventoryQuery += (index < newInventory.length - 1) ? ', ' : '';
+  });
+
+  console.log(updateInventoryQuery);
+
+  await db.query(updateInventoryQuery);
+};
+
 export {
   getAllCategories,
   getAllProducts,
@@ -68,5 +86,6 @@ export {
   getAllStores,
   postNewStore,
   getStoreById,
-  getStoreInventory
+  getStoreInventory,
+  postStoreInventory
 };

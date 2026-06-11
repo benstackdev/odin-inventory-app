@@ -60,6 +60,19 @@ const productsIdGet = async (req: Request, res: Response) => {
   } catch (error) { throw error; }
 };
 
+const productsIdUpdateGet = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const product = await getProductById(String(id));
+
+    res.render("productsIdUpdate", {
+      title: "Update product details",
+      product,
+      categories: categories.all()
+    });
+  } catch (error) { throw error; }
+};
+
 const productsIdDelete = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
@@ -75,5 +88,6 @@ export {
   productsNewGet,
   productsIdGet,
   productsIdDelete,
+  productsIdUpdateGet,
   productsNewPost
 };

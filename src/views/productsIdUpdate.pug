@@ -1,0 +1,23 @@
+doctype html 
+html(lang='en') 
+  head 
+    title= title
+  body 
+    h1 Update product
+    form(action=`/products/${product.id}/update/`, method="POST")
+      .form-row
+        label(for="productName") Product Name: 
+        input#productName(type="text", 
+                          name="productName", 
+                          value=product.name)
+      .form-row
+        label(for="productDescription") Product Description: 
+        textarea#productDescription(name="productDescription")= product.description
+      .form-row
+        label(for="categorySelect") Product Category:
+        select#categorySelect(name="category", value=product.categoryid)
+          each val in categories 
+            option(value=val.id)= val.name
+      br
+      button(type="submit") Update product
+      p: a(href=`/products/${product.id}`) Back to product page (changes will be lost) 

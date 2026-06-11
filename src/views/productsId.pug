@@ -8,6 +8,7 @@ html
       p= 'Description: ' + product.description 
       p= 'Category: ' + product.categoryName
     //- Only valid form methods are GET and POST (no DELETE)
+    p: a(href=`/products/${product.id}/update`) Update product details 
     form(action=`/products/${product.id}/delete`, method="POST")
       button(
         type="submit",

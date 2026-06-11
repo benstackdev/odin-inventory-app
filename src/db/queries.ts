@@ -75,6 +75,14 @@ const getStoreInventory = async (storeId: StoreType["id"]) => {
   return rows;
 };
 
+const postStoreUpdate = async (store: StoreType) => {
+  // update store list
+  await db.query(`update store set name = $2 where id = $1 returning *`, [store.id, store.name]);
+
+  // update all inventory entries for that store
+  await db.query(`update inventory set storename = $2 where storeid = $1`, [store.id, store.name]);
+};
+
 const postStoreInventory = async (storeId: StoreType["id"], newInventory: InventoryType[]) => {
   // delete all existing inventory entries for storeId
   await db.query(`delete from inventory where storeid=$1`, [storeId]);
@@ -101,6 +109,7 @@ export {
   postUpdateProduct,
   getAllStores,
   postNewStore,
+  postStoreUpdate,
   getStoreById,
   getStoreInventory,
   postStoreInventory

@@ -1,0 +1,11 @@
+doctype html 
+html(lang='en') 
+  head 
+    title= title
+  body 
+    h1 Update store
+    form(action=`/stores/${store.id}/update`, method="POST")
+      .form-row
+        label(for="storeName") Store Name: 
+        input#storeName(type="text", name="storeName", value= store.name)
+      button(type="submit") Update store

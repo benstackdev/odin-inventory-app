@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 import type { StoreType } from "../types/store.type.js";
-import { getAllProducts, getAllStores, getProductById, getStoreById, getStoreInventory, postNewStore, postStoreInventory } from "../db/queries.js";
+import { getAllProducts, getAllStores, getProductById, getStoreById, getStoreInventory, postNewStore, postStoreInventory, postStoreUpdate } from "../db/queries.js";
 import type { InventoryType } from "../types/inventory.type.js";
 import type { ProductInventoryType, ProductType } from "../types/product.type.js";
 import { inventoryFilter } from "../utils/inventoryFilter.js";
@@ -30,6 +30,32 @@ const storesNewPost = async (req: Request, res: Response) => {
     await postNewStore(newStore);
 
     res.redirect("/");
+  } catch (error) { throw error; }
+};
+
+const storesUpdateGet = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    if (!id) res.status(404).json(`Store ID ${id} not found or invalid`);
+
+    const store: StoreType = await getStoreById(id as StoreType["id"]);
+
+    res.render("storesUpdate", {
+      title: "Update store",
+      store
+    });
+  } catch (error) { throw error; }
+};
+
+const storesUpdatePost = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    if (!id) res.status(404).json(`Store ID ${id} not found or invalid`);
+
+    const name = req.body.storeName;
+
+    await postStoreUpdate({ id: String(id), name });
+    res.redirect(`/stores/${id}`);
   } catch (error) { throw error; }
 };
 
@@ -102,6 +128,8 @@ export {
   storesAllGet,
   storesNewGet,
   storesNewPost,
+  storesUpdateGet,
+  storesUpdatePost,
   storesInventoryGet,
   storesUpdateInventoryGet,
   storesUpdateInventoryPost

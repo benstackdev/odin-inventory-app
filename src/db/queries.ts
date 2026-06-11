@@ -21,6 +21,9 @@ const getProductById = async (id: ProductType["id"]) => {
 };
 
 const deleteProductById = async (id: ProductType["id"]) => {
+  // delete entries from inventory
+  await db.query('delete from inventory where productid=$1', [id]);
+  // delete entries from product
   await db.query('delete from product where id=$1', [id]);
 };
 
@@ -29,6 +32,18 @@ const postNewProduct = async (newProduct: ProductType) => {
     insert into product (id, name, description, categoryid) 
     values ($1, $2, $3, $4)`,
     [newProduct.id, newProduct.name, newProduct.description, newProduct.categoryid]
+  );
+};
+
+const postUpdateProduct = async (updatedProduct: ProductType) => {
+  await db.query(`
+    update product
+    set description = $2, categoryid = $3
+    where id = $1
+    returning *
+    `, [updatedProduct.id,
+  updatedProduct.description,
+  updatedProduct.categoryid]
   );
 };
 
@@ -83,6 +98,7 @@ export {
   getProductById,
   deleteProductById,
   postNewProduct,
+  postUpdateProduct,
   getAllStores,
   postNewStore,
   getStoreById,

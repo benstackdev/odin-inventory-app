@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { deleteProductById, getAllProducts, getProductById, postNewProduct } from "../db/queries.js";
+import { deleteProductById, getAllProducts, getProductById, postNewProduct, postUpdateProduct } from "../db/queries.js";
 import type { CategoryType } from "../types/category.type.js";
 import type { ProductType, ProductViewType } from "../types/product.type.js";
 import categories from "../utils/categories.js";
@@ -73,6 +73,24 @@ const productsIdUpdateGet = async (req: Request, res: Response) => {
   } catch (error) { throw error; }
 };
 
+const productsIdUpdatePost = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const product = await getProductById(String(id));
+
+    const updatedProduct: ProductType = {
+      id: String(id),
+      name: product.name,
+      description: req.body.productDescription,
+      categoryid: req.body.category
+    };
+
+    await postUpdateProduct(updatedProduct);
+    res.redirect(`/products/${id}`);
+
+  } catch (error) { throw error; }
+};
+
 const productsIdDelete = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
@@ -89,5 +107,6 @@ export {
   productsIdGet,
   productsIdDelete,
   productsIdUpdateGet,
+  productsIdUpdatePost,
   productsNewPost
 };

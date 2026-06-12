@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { storesAllGet, storesInventoryGet, storesNewGet, storesNewPost, storesUpdateGet, storesUpdateInventoryGet, storesUpdateInventoryPost, storesUpdatePost } from "../controllers/storesController.js";
+import { storesAllGet, storesDeletePost, storesInventoryGet, storesNewGet, storesNewPost, storesUpdateGet, storesUpdateInventoryGet, storesUpdateInventoryPost, storesUpdatePost } from "../controllers/storesController.js";
 import { validateStoresNew } from "../controllers/storesValidators.js";
 
 const storesRouter: Router = Router();
@@ -12,5 +12,6 @@ storesRouter.get("/:id/update", storesUpdateGet);
 storesRouter.post("/new", validateStoresNew, storesNewPost);
 storesRouter.post("/:id/update-inventory", storesUpdateInventoryPost);
 storesRouter.post("/:id/update", storesUpdatePost);
+storesRouter.post("/:id/delete", storesDeletePost);
 
 export default storesRouter;

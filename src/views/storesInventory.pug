@@ -11,4 +11,6 @@ html
           p= 'Amount: ' + val.amount 
     p: a(href=`/stores/${store.id}/update-inventory`) Update inventory 
     p: a(href=`/stores/${store.id}/update`) Update store
+    form(action=`/stores/${store.id}/delete`, method="POST")
+      button(type="submit", onclick='confirm("Are you sure you want to delete ' + store.name + '?")') Delete store 
     p: a(href="/stores/all") Go back to stores list  

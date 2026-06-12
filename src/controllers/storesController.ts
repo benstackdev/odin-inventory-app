@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 import type { StoreType } from "../types/store.type.js";
-import { getAllProducts, getAllStores, getProductById, getStoreById, getStoreInventory, postNewStore, postStoreInventory, postStoreUpdate } from "../db/queries.js";
+import { getAllProducts, getAllStores, getProductById, getStoreById, getStoreInventory, postNewStore, postStoreDelete, postStoreInventory, postStoreUpdate } from "../db/queries.js";
 import type { InventoryType } from "../types/inventory.type.js";
 import type { ProductInventoryType, ProductType } from "../types/product.type.js";
 import { inventoryFilter } from "../utils/inventoryFilter.js";
@@ -136,6 +136,16 @@ const storesUpdateInventoryPost = async (req: Request, res: Response) => {
   } catch (error) { throw error; }
 };
 
+const storesDeletePost = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    if (!id) res.status(404).json(`Store ID ${id} not found or invalid`);
+
+    await postStoreDelete(String(id));
+    res.redirect("/stores/all");
+  } catch (error) { throw error; }
+};
+
 export {
   storesAllGet,
   storesNewGet,
@@ -144,5 +154,6 @@ export {
   storesUpdatePost,
   storesInventoryGet,
   storesUpdateInventoryGet,
-  storesUpdateInventoryPost
+  storesUpdateInventoryPost,
+  storesDeletePost
 };

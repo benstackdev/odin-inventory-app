@@ -100,6 +100,14 @@ const postStoreInventory = async (storeId: StoreType["id"], newInventory: Invent
   await db.query(updateInventoryQuery);
 };
 
+const postStoreDelete = async (storeId: StoreType["id"]) => {
+  // delete all existing inventory entries for storeId
+  await db.query(`delete from inventory where storeid=$1`, [storeId]);
+
+  // delete the store itself from store table
+  await db.query(`delete from store where id=$1`, [storeId]);
+};
+
 export {
   getAllCategories,
   getAllProducts,
@@ -112,5 +120,6 @@ export {
   postStoreUpdate,
   getStoreById,
   getStoreInventory,
-  postStoreInventory
+  postStoreInventory,
+  postStoreDelete
 };

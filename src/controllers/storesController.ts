@@ -4,6 +4,7 @@ import { getAllProducts, getAllStores, getProductById, getStoreById, getStoreInv
 import type { InventoryType } from "../types/inventory.type.js";
 import type { ProductInventoryType, ProductType } from "../types/product.type.js";
 import { inventoryFilter } from "../utils/inventoryFilter.js";
+import { matchedData, validationResult } from "express-validator";
 
 // TODO: Refactor middleware functions to remove repeated store fetching code
 
@@ -23,9 +24,20 @@ const storesNewGet = (req: Request, res: Response) => {
 
 const storesNewPost = async (req: Request, res: Response) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).render("storesNew", {
+        title: "Add new store",
+        errors: errors.array()
+      });
+    }
+
+    // Data is validated; move on
+    const { storeName } = matchedData(req);
+
     const newStore: StoreType = {
       id: crypto.randomUUID(),
-      name: req.body.storeName
+      name: storeName
     };
     await postNewStore(newStore);
 

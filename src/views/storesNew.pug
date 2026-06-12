@@ -4,8 +4,10 @@ html(lang='en')
     title= title
   body 
     h1 Add new store
+    if errors 
+      include partials/errors.pug
     form(action="/stores/new", method="POST")
-      .form-row
+      .form-row 
         label(for="storeName") Store Name: 
         input#storeName(type="text", name="storeName")
       button(type="submit") Add new store
